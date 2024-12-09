@@ -48,4 +48,40 @@ To setup the development environment follow the following steps:
   
   ![Screenshot of project (repo) skeleton.](https://github.com/mebratuteshale/mebratu-week0/blob/main/screenshoots/project_skeleton.png)
 ## EDA Analysis
+* Import `panda`, `numpy`, `pylab` and `seaborn`
+* Read datasets one-by-one
+  ```
+  df_benin=pd.read_csv('../dataset/benin-malanville.csv')
+  ```
+* **Understand data**:
+  + _Summary Statistics_: Calculate the `mean`, `median`, `standard deviation`, `max` and `min` for each the numeric columns to understand data distribution
+  + _Data Quality Check_ is performed by removing negative values of the GHI, DNI, and DHI, remove outliers from the Temprature readings.
+    ```
+    # change the datatype of the `Timestamp` column from `Object` type to `datetime` 
+    df_benin['Timestamp']=pd.to_datetime(df_benin['Timestamp'])
+    ```
+   **Remove outliers** from temprature data
+   ```
+  import seaborn as sns
+  import matplotlib.pyplot as plt
+
+  def remove_outliers(df, column, threshold,lessThan):
+      sns.boxplot(df[column])
+      plt.title(f'Original Box Plot of {column}')
+      plt.show()
+      if lessThan:
+          data_after_outlier_removed = df[df[column] <= threshold]
+      else:        
+          data_after_outlier_removed = df[df[column] >= threshold]
+          
+      sns.boxplot(data_after_outlier_removed[column])
+      plt.title(f'Box Plot without Outliers of {column}')
+      plt.show()
+      return data_after_outlier_removed
+    ```
+  + _Time Series Analysis_: Bar charts and Line charts of GHI, DNI, DHI, and Tamb over time are created to observe patterns by month
+     ![Time Series anlysis using linechart.](https://github.com/mebratuteshale/mebratu-week0/blob/main/screenshoots/linecharts.png)
+     ![Time Series anlysis using Barchart .](https://github.com/mebratuteshale/mebratu-week0/blob/main/screenshoots/barcharts.png)
+    
+    
 
